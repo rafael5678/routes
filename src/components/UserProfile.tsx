@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { ExperienceLevel } from "@/types/user";
 import ProfileSummary from "./ProfileSummary";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface UserProfileProps {
   onClose?: () => void;
 }
 
 export default function UserProfile({ onClose }: UserProfileProps) {
+  const { t } = useLanguage();
   const { profile, updateProfile, updateGoals } = useUserProfile();
   const [formData, setFormData] = useState(profile);
   const [showForm, setShowForm] = useState(false);
@@ -35,16 +37,16 @@ export default function UserProfile({ onClose }: UserProfileProps) {
     return (
       <div className="max-h-[80vh] overflow-y-auto space-y-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">👤 Mi Perfil</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">👤 {t.profile.title}</h2>
         </div>
         
         <ProfileSummary />
         
         <button
           onClick={() => setShowForm(true)}
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:scale-[1.02]"
+          className="w-full bg-linear-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:scale-[1.02]"
         >
-          ✏️ Editar Perfil
+          ✏️ {t.profile.edit}
         </button>
       </div>
     );
@@ -53,7 +55,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 max-h-[80vh] overflow-y-auto">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">✏️ Editar Perfil</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">✏️ {t.profile.edit}</h2>
         <button
           onClick={() => setShowForm(false)}
           className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none"
@@ -65,26 +67,26 @@ export default function UserProfile({ onClose }: UserProfileProps) {
       <form onSubmit={handleSubmit} className="grid gap-6">
         {/* Personal Info */}
         <div className="bg-linear-to-br from-orange-50 to-orange-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">📋 Información Personal</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">📋 {t.profile.personalInfo}</h3>
           
           <div className="grid gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Nombre
+                {t.profile.name}
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                placeholder="Tu nombre"
+                placeholder={t.profile.name}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Peso (kg)
+                  {t.profile.weight}
                 </label>
                 <input
                   type="number"
@@ -98,7 +100,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Altura (cm)
+                  {t.profile.height}
                 </label>
                 <input
                   type="number"
@@ -114,7 +116,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Edad
+                  {t.profile.age}
                 </label>
                 <input
                   type="number"
@@ -128,16 +130,16 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Género
+                  {t.profile.gender}
                 </label>
                 <select
                   value={formData.gender}
                   onChange={(e) => handleChange("gender", e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
-                  <option value="male">Masculino</option>
-                  <option value="female">Femenino</option>
-                  <option value="other">Otro</option>
+                  <option value="male">{t.profile.male}</option>
+                  <option value="female">{t.profile.female}</option>
+                  <option value="other">{t.profile.other}</option>
                 </select>
               </div>
             </div>
@@ -146,12 +148,12 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
         {/* Experience & Preferences */}
         <div className="bg-linear-to-br from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">⚙️ Preferencias</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">⚙️ {t.profile.preferences}</h3>
           
           <div className="grid gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Nivel de Experiencia
+                {t.profile.experienceLevel}
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {(["beginner", "intermediate", "advanced"] as ExperienceLevel[]).map((level) => (
@@ -165,7 +167,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
                         : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600"
                     }`}
                   >
-                    {level === "beginner" ? "🐣 Principiante" : level === "intermediate" ? "🏃 Intermedio" : "🏆 Avanzado"}
+                    {level === "beginner" ? `🐣 ${t.profile.beginner}` : level === "intermediate" ? `🏃 ${t.profile.intermediate}` : `🏆 ${t.profile.advanced}`}
                   </button>
                 ))}
               </div>
@@ -173,7 +175,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Sistema de Unidades
+                {t.profile.unitSystem}
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -185,7 +187,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
                       : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600"
                   }`}
                 >
-                  📏 Métrico (km, m)
+                  📏 {t.profile.metric}
                 </button>
                 <button
                   type="button"
@@ -196,7 +198,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
                       : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600"
                   }`}
                 >
-                  📐 Imperial (mi, ft)
+                  📐 {t.profile.imperial}
                 </button>
               </div>
             </div>
@@ -205,12 +207,12 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
         {/* Goals */}
         <div className="bg-linear-to-br from-green-50 to-green-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">🎯 Metas</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">🎯 {t.profile.goals}</h3>
           
           <div className="grid gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Pasos Diarios
+                {t.profile.dailySteps}
               </label>
               <input
                 type="number"
@@ -225,7 +227,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Distancia Diaria (metros)
+                {t.profile.dailyDistance}
               </label>
               <input
                 type="number"
@@ -240,7 +242,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Carreras Semanales
+                {t.profile.weeklyRuns}
               </label>
               <input
                 type="number"
@@ -259,7 +261,7 @@ export default function UserProfile({ onClose }: UserProfileProps) {
           type="submit"
           className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:scale-[1.02]"
         >
-          💾 Guardar Perfil
+          💾 {t.profile.save}
         </button>
       </form>
     </div>

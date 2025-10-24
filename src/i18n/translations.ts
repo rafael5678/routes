@@ -112,6 +112,19 @@ export interface Translations {
     downloadBackup: string;
     restoreBackup: string;
     info: string;
+    noSessions: string;
+    backupIncludes: string;
+    userProfile: string;
+    allSessions: string;
+    dailyProgress: string;
+    themeConfig: string;
+    csvDescription: string;
+    gpxDescription: string;
+    jsonDescription: string;
+    totalSessions: string;
+    importing: string;
+    successImport: string;
+    errorImport: string;
   };
 
   // Voice Settings
@@ -122,6 +135,19 @@ export interface Translations {
     timeInterval: string;
     distanceInterval: string;
     test: string;
+    notSupported: string;
+    notSupportedDesc: string;
+    listenWhileRunning: string;
+    everyMinutes: string;
+    announcementPerKm: string;
+    infoTitle: string;
+    info1: string;
+    info2: string;
+    info3: string;
+    info4: string;
+    spanish: string;
+    english: string;
+    off: string;
   };
 
   // History
@@ -304,6 +330,19 @@ export const translations: Record<Language, Translations> = {
       downloadBackup: "Descargar Respaldo (JSON)",
       restoreBackup: "Restaurar Respaldo",
       info: "Información",
+      noSessions: "No hay sesiones para exportar",
+      backupIncludes: "El respaldo incluye:",
+      userProfile: "Perfil de usuario",
+      allSessions: "Todas las sesiones",
+      dailyProgress: "Progreso diario",
+      themeConfig: "Configuración de tema",
+      csvDescription: "Abre en Excel, Google Sheets para análisis de datos",
+      gpxDescription: "Compatible con Strava, Garmin Connect, Google Earth",
+      jsonDescription: "Respaldo completo de todos tus datos",
+      totalSessions: "Total de sesiones",
+      importing: "Importando...",
+      successImport: "✅ Datos importados correctamente. Recarga la página para ver los cambios.",
+      errorImport: "❌ Error al importar datos. Verifica que el archivo sea válido.",
     },
     voice: {
       title: "Notificaciones de Voz",
@@ -312,6 +351,19 @@ export const translations: Record<Language, Translations> = {
       timeInterval: "Intervalo de tiempo",
       distanceInterval: "Intervalo de distancia",
       test: "Probar",
+      notSupported: "Notificaciones de voz no disponibles",
+      notSupportedDesc: "Tu navegador no soporta la síntesis de voz. Prueba con Chrome, Edge, o Safari.",
+      listenWhileRunning: "Escucha tus estadísticas mientras corres",
+      everyMinutes: "Cada cuántos minutos escuchar las estadísticas",
+      announcementPerKm: "Anuncio cada kilómetro completado",
+      infoTitle: "Información",
+      info1: "Las notificaciones se anuncian automáticamente mientras corres",
+      info2: "Recibirás alertas al iniciar, pausar y finalizar",
+      info3: "Los logros nuevos se anuncian al desbloquearlos",
+      info4: "Asegúrate de tener el volumen activado",
+      spanish: "Español",
+      english: "English",
+      off: "Off",
     },
     history: {
       title: "📋 Historial de Carreras",
@@ -482,6 +534,19 @@ export const translations: Record<Language, Translations> = {
       downloadBackup: "Download Backup (JSON)",
       restoreBackup: "Restore Backup",
       info: "Information",
+      noSessions: "No sessions to export",
+      backupIncludes: "Backup includes:",
+      userProfile: "User profile",
+      allSessions: "All sessions",
+      dailyProgress: "Daily progress",
+      themeConfig: "Theme configuration",
+      csvDescription: "Open in Excel, Google Sheets for data analysis",
+      gpxDescription: "Compatible with Strava, Garmin Connect, Google Earth",
+      jsonDescription: "Complete backup of all your data",
+      totalSessions: "Total sessions",
+      importing: "Importing...",
+      successImport: "✅ Data imported successfully. Reload the page to see changes.",
+      errorImport: "❌ Error importing data. Verify the file is valid.",
     },
     voice: {
       title: "Voice Notifications",
@@ -490,6 +555,19 @@ export const translations: Record<Language, Translations> = {
       timeInterval: "Time interval",
       distanceInterval: "Distance interval",
       test: "Test",
+      notSupported: "Voice notifications not available",
+      notSupportedDesc: "Your browser doesn't support speech synthesis. Try Chrome, Edge, or Safari.",
+      listenWhileRunning: "Listen to your stats while running",
+      everyMinutes: "How many minutes between announcements",
+      announcementPerKm: "Announcement every kilometer completed",
+      infoTitle: "Information",
+      info1: "Notifications are announced automatically while running",
+      info2: "You'll receive alerts when starting, pausing and finishing",
+      info3: "New achievements are announced when unlocked",
+      info4: "Make sure your volume is on",
+      spanish: "Español",
+      english: "English",
+      off: "Off",
     },
     history: {
       title: "📋 Run History",

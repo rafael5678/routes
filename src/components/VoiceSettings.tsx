@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface VoiceSettingsData {
   enabled: boolean;
@@ -19,6 +20,7 @@ const DEFAULT_SETTINGS: VoiceSettingsData = {
 const STORAGE_KEY = "voice-settings";
 
 export default function VoiceSettings() {
+  const { t } = useLanguage();
   const [settings, setSettings] = useState<VoiceSettingsData>(DEFAULT_SETTINGS);
   const [isSupported, setIsSupported] = useState(false);
 
@@ -62,10 +64,10 @@ export default function VoiceSettings() {
           <span className="text-3xl">⚠️</span>
           <div>
             <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
-              Notificaciones de voz no disponibles
+              {t.voice.notSupported}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Tu navegador no soporta la síntesis de voz. Prueba con Chrome, Edge, o Safari.
+              {t.voice.notSupportedDesc}
             </p>
           </div>
         </div>
@@ -76,24 +78,24 @@ export default function VoiceSettings() {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">🔊 Notificaciones de Voz</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">🔊 {t.voice.title}</h2>
         <button
           onClick={testVoice}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
         >
-          🔊 Probar
+          🔊 {t.voice.test}
         </button>
       </div>
 
       {/* Enable/Disable */}
-      <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4">
+      <div className="bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-              Activar notificaciones
+              {t.voice.enable}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Escucha tus estadísticas mientras corres
+              {t.voice.listenWhileRunning}
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -109,8 +111,8 @@ export default function VoiceSettings() {
       </div>
 
       {/* Language */}
-      <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">🌍 Idioma</h3>
+      <div className="bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4">
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">🌍 {t.voice.language}</h3>
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => updateSettings({ language: "es-ES" })}
@@ -120,7 +122,7 @@ export default function VoiceSettings() {
                 : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-gray-600"
             }`}
           >
-            🇪🇸 Español
+            🇪🇸 {t.voice.spanish}
           </button>
           <button
             onClick={() => updateSettings({ language: "en-US" })}
@@ -130,16 +132,16 @@ export default function VoiceSettings() {
                 : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-gray-600"
             }`}
           >
-            🇺🇸 English
+            🇺🇸 {t.voice.english}
           </button>
         </div>
       </div>
 
       {/* Time Interval */}
-      <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">⏱️ Intervalo de tiempo</h3>
+      <div className="bg-linear-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-4">
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">⏱️ {t.voice.timeInterval}</h3>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-          Cada cuántos minutos escuchar las estadísticas
+          {t.voice.everyMinutes}
         </p>
         <div className="grid grid-cols-4 gap-2">
           {[0, 3, 5, 10].map((minutes) => (
@@ -152,17 +154,17 @@ export default function VoiceSettings() {
                   : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-gray-600"
               }`}
             >
-              {minutes === 0 ? "Off" : `${minutes} min`}
+              {minutes === 0 ? t.voice.off : `${minutes} min`}
             </button>
           ))}
         </div>
       </div>
 
       {/* Distance Interval */}
-      <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl p-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">📏 Intervalo de distancia</h3>
+      <div className="bg-linear-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl p-4">
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-3">📏 {t.voice.distanceInterval}</h3>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-          Anuncio cada kilómetro completado
+          {t.voice.announcementPerKm}
         </p>
         <div className="grid grid-cols-3 gap-2">
           {[0, 500, 1000].map((meters) => (
@@ -175,20 +177,20 @@ export default function VoiceSettings() {
                   : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-600"
               }`}
             >
-              {meters === 0 ? "Off" : `${meters / 1000} km`}
+              {meters === 0 ? t.voice.off : `${meters / 1000} km`}
             </button>
           ))}
         </div>
       </div>
 
       {/* Info */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-xl p-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">💡 Información</h3>
+      <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-xl p-4">
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">💡 {t.voice.infoTitle}</h3>
         <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1 list-disc list-inside">
-          <li>Las notificaciones se anuncian automáticamente mientras corres</li>
-          <li>Recibirás alertas al iniciar, pausar y finalizar</li>
-          <li>Los logros nuevos se anuncian al desbloquearlos</li>
-          <li>Asegúrate de tener el volumen activado</li>
+          <li>{t.voice.info1}</li>
+          <li>{t.voice.info2}</li>
+          <li>{t.voice.info3}</li>
+          <li>{t.voice.info4}</li>
         </ul>
       </div>
     </div>

@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { exportSessionAsGPX, exportSessionsAsCSV, exportAllDataAsJSON, importDataFromJSON } from "@/utils/exportData";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function ExportData() {
+  const { t } = useLanguage();
   const { sessions } = useSessionHistory();
   const [importing, setImporting] = useState(false);
 
@@ -29,9 +31,9 @@ export default function ExportData() {
     setImporting(true);
     try {
       await importDataFromJSON(file);
-      alert("✅ Datos importados correctamente. Recarga la página para ver los cambios.");
+      alert(t.export.successImport);
     } catch (error) {
-      alert("❌ Error al importar datos. Verifica que el archivo sea válido.");
+      alert(t.export.errorImport);
     } finally {
       setImporting(false);
     }
@@ -39,12 +41,12 @@ export default function ExportData() {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">📤 Exportar e Importar Datos</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">📤 {t.export.title}</h2>
 
       <div className="space-y-4">
         {/* Export Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">📊 Exportar Sesiones</h3>
+        <div className="bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">📊 {t.export.exportSessions}</h3>
           
           <div className="grid gap-3">
             <button
@@ -53,7 +55,7 @@ export default function ExportData() {
               className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <span>📊</span>
-              <span>Exportar todas como CSV</span>
+              <span>{t.export.exportCSV}</span>
             </button>
 
             <button
@@ -62,20 +64,20 @@ export default function ExportData() {
               className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <span>🗺️</span>
-              <span>Exportar todas como GPX (Strava)</span>
+              <span>{t.export.exportGPX}</span>
             </button>
 
             {sessions.length === 0 && (
               <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                No hay sesiones para exportar
+                {t.export.noSessions}
               </p>
             )}
           </div>
         </div>
 
         {/* Backup Section */}
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">💾 Respaldo Completo</h3>
+        <div className="bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">💾 {t.export.backup}</h3>
           
           <div className="grid gap-3">
             <button
@@ -83,13 +85,13 @@ export default function ExportData() {
               className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <span>💾</span>
-              <span>Descargar Respaldo (JSON)</span>
+              <span>{t.export.downloadBackup}</span>
             </button>
 
             <div>
               <label className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <span>📥</span>
-                <span>{importing ? "Importando..." : "Restaurar Respaldo"}</span>
+                <span>{importing ? t.export.importing : t.export.restoreBackup}</span>
                 <input
                   type="file"
                   accept=".json"
@@ -102,37 +104,37 @@ export default function ExportData() {
           </div>
 
           <div className="mt-3 text-xs text-gray-600 dark:text-gray-400">
-            <p>💡 El respaldo incluye:</p>
+            <p>💡 {t.export.backupIncludes}</p>
             <ul className="list-disc list-inside ml-2 mt-1">
-              <li>Perfil de usuario</li>
-              <li>Todas las sesiones</li>
-              <li>Progreso diario</li>
-              <li>Configuración de tema</li>
+              <li>{t.export.userProfile}</li>
+              <li>{t.export.allSessions}</li>
+              <li>{t.export.dailyProgress}</li>
+              <li>{t.export.themeConfig}</li>
             </ul>
           </div>
         </div>
 
         {/* Info Section */}
-        <div className="bg-gradient-to-br from-yellow-50 to-amber-100 dark:from-yellow-900/20 dark:to-amber-800/20 rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">ℹ️ Información</h3>
+        <div className="bg-linear-to-br from-yellow-50 to-amber-100 dark:from-yellow-900/20 dark:to-amber-800/20 rounded-xl p-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">ℹ️ {t.export.info}</h3>
           <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
             <p>
-              <strong>CSV:</strong> Abre en Excel, Google Sheets para análisis de datos
+              <strong>CSV:</strong> {t.export.csvDescription}
             </p>
             <p>
-              <strong>GPX:</strong> Compatible con Strava, Garmin Connect, Google Earth
+              <strong>GPX:</strong> {t.export.gpxDescription}
             </p>
             <p>
-              <strong>JSON:</strong> Respaldo completo de todos tus datos
+              <strong>JSON:</strong> {t.export.jsonDescription}
             </p>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-xl p-4">
+        <div className="bg-linear-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Total de sesiones</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">{t.export.totalSessions}</div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white">{sessions.length}</div>
             </div>
             <div className="text-5xl">📋</div>
