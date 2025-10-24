@@ -62,13 +62,13 @@ export function useLocation() {
         let errorMessage = "Error al obtener la ubicación";
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            errorMessage = "Permiso de ubicación denegado. Usa el botón 'Universidad' para establecer tu ubicación";
+            errorMessage = "Permiso de ubicación denegado. Activa la ubicación en tu dispositivo";
             break;
           case error.POSITION_UNAVAILABLE:
-            errorMessage = "Ubicación no disponible. Usa el botón 'Universidad' para establecer tu ubicación";
+            errorMessage = "Ubicación no disponible. Verifica tu conexión GPS";
             break;
           case error.TIMEOUT:
-            errorMessage = "Tiempo de espera agotado. Usa el botón 'Universidad' para establecer tu ubicación";
+            errorMessage = "Tiempo de espera agotado. Intenta de nuevo";
             break;
         }
 
@@ -80,8 +80,8 @@ export function useLocation() {
       },
       {
         enableHighAccuracy: true,
-        timeout: 15000, // Aumentado a 15 segundos
-        maximumAge: 60000, // Reducido a 1 minuto para mayor precisión
+        timeout: 20000, // 20 segundos para mejor precisión
+        maximumAge: 0, // Siempre obtener ubicación nueva
       }
     );
   }, []);

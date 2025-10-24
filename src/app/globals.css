@@ -13,6 +13,17 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Dark mode */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  color-scheme: dark;
+}
+
+.dark .leaflet-tile-pane {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

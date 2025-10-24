@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapContainer, Marker, Polyline, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, Polyline, TileLayer, useMapEvents, useMap } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import { RouteData, MapState } from "@/types";
 import { useLocation } from "@/hooks/useLocation";
 
-// Universidad Cooperativa de Colombia - Sede Pasto (Pandiaco)
-const defaultCenter: LatLngExpression = [1.2098, -77.2765]; // Pandiaco, Pasto
+// Default center - will be updated with user's real location
+const defaultCenter: LatLngExpression = [4.7110, -74.0721]; // Bogotá, Colombia (default)
 const UNIVERSITY_COORDINATES: [number, number] = [1.2098, -77.2765]; // Universidad Cooperativa en Pandiaco
 
 function ClickHandler({ onClick }: { onClick: (lat: number, lng: number) => void }) {
@@ -19,13 +19,43 @@ function ClickHandler({ onClick }: { onClick: (lat: number, lng: number) => void
   return null;
 }
 
+// Component to auto-center map on user location
+function MapCenterUpdater({ center, followUser }: { center: [number, number] | null; followUser: boolean }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (center && followUser) {
+      map.setView(center, map.getZoom(), { animate: true });
+    }
+  }, [center, followUser, map]);
+  
+  return null;
+}
+
+// Component to set initial map center
+function InitialMapCenter({ userLocation }: { userLocation: [number, number] | null }) {
+  const map = useMap();
+  const hasSetInitialCenter = useRef(false);
+  
+  useEffect(() => {
+    if (userLocation && !hasSetInitialCenter.current) {
+      map.setView(userLocation, 15, { animate: true });
+      hasSetInitialCenter.current = true;
+    }
+  }, [userLocation, map]);
+  
+  return null;
+}
+
 interface MapViewProps {
   onRouteComplete: (distanceKm: number, durationMin: number) => void;
   onNavigationUpdate: (message: string) => void;
   onDestinationSelect?: (lat: number, lng: number, name: string) => void;
+  livePositions?: [number, number][]; // For real-time tracking
+  followUser?: boolean; // Whether to follow user location
 }
 
-export default function MapView({ onRouteComplete, onNavigationUpdate, onDestinationSelect }: MapViewProps) {
+export default function MapView({ onRouteComplete, onNavigationUpdate, onDestinationSelect, livePositions, followUser }: MapViewProps) {
   const [mapState, setMapState] = useState<MapState>({
     start: null,
     end: null,
@@ -42,6 +72,8 @@ export default function MapView({ onRouteComplete, onNavigationUpdate, onDestina
     isNearUniversity,
     universityCoordinates 
   } = useLocation();
+  
+  const locationRef = useRef<L.Marker | null>(null);
   const polyline = useMemo(() => 
     (mapState.route ? mapState.route.geometry.map(([lng, lat]) => [lat, lng]) as [number, number][] : []), 
     [mapState.route]
@@ -113,8 +145,6 @@ export default function MapView({ onRouteComplete, onNavigationUpdate, onDestina
     return () => controller.abort();
   }, [mapState.start, mapState.end, onRouteComplete, onNavigationUpdate]);
 
-  const locationRef = useRef<L.Marker | null>(null);
-
   const locate = () => {
     if (isLocating) return;
     
@@ -168,15 +198,45 @@ export default function MapView({ onRouteComplete, onNavigationUpdate, onDestina
     []
   );
 
+  // Get current position for map centering
+  const mapCenter = currentLocation ? [currentLocation.latitude, currentLocation.longitude] as [number, number] : null;
+  const liveCenter = livePositions && livePositions.length > 0 ? livePositions[livePositions.length - 1] : null;
+
   return (
-    <div className="relative h-[420px] md:h-[520px]">
-      <MapContainer center={defaultCenter} zoom={14} className="h-full w-full" zoomControl={false}>
+    <div className="relative h-full w-full">
+      <MapContainer center={mapCenter || defaultCenter} zoom={15} className="h-full w-full" zoomControl={false}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
         <ClickHandler onClick={handleClick} />
-        {mapState.start && <Marker position={mapState.start} icon={startIcon} ref={(ref) => (locationRef.current = ref as unknown as L.Marker)} />}
+        
+        {/* Auto-center on user location initially */}
+        <InitialMapCenter userLocation={mapCenter} />
+        
+        {/* Follow user during active session */}
+        <MapCenterUpdater center={liveCenter} followUser={followUser || false} />
+        
+        {mapState.start && <Marker position={mapState.start} icon={startIcon} ref={(ref) => { locationRef.current = ref as unknown as L.Marker; }} />}
         {mapState.end && <Marker position={mapState.end} icon={endIcon} />}
         {polyline.length > 0 && (
           <Polyline positions={polyline} pathOptions={{ color: "#f97316", weight: 6, opacity: 0.8 }} />
+        )}
+        {/* Live tracking polyline */}
+        {livePositions && livePositions.length > 1 && (
+          <Polyline 
+            positions={livePositions} 
+            pathOptions={{ color: "#22c55e", weight: 4, opacity: 0.9 }} 
+          />
+        )}
+        
+        {/* Current location marker */}
+        {liveCenter && (
+          <Marker 
+            position={liveCenter} 
+            icon={new L.DivIcon({
+              html: '<div class="w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-300 shadow-lg animate-pulse"></div>',
+              className: "",
+              iconSize: [16, 16],
+            })}
+          />
         )}
       </MapContainer>
 

@@ -1,0 +1,38 @@
+{
+  "name": "RunTracker - App de Atletismo",
+  "short_name": "RunTracker",
+  "description": "Aplicación profesional para correr y trotar con seguimiento en tiempo real, estadísticas y metas personalizadas",
+  "start_url": "/mapa",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "sports"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Iniciar Carrera",
+      "short_name": "Correr",
+      "description": "Inicia una nueva sesión de carrera",
+      "url": "/mapa",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
+
