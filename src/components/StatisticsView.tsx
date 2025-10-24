@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { MonthlyStats } from "@/types/session";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface StatisticsViewProps {
   yearlyStats: MonthlyStats[];
@@ -12,40 +13,43 @@ interface StatisticsViewProps {
 export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats }: StatisticsViewProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<"week" | "month" | "year" | "all">("year");
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const { t, language } = useLanguage();
 
-  const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+  const monthNames = language === 'es' 
+    ? ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const maxSessions = Math.max(...yearlyStats.map(s => s.sessions), 1);
 
   return (
-    <div className="bg-white rounded-2xl p-5 border shadow-sm">
-      <h2 className="text-2xl font-bold mb-4 text-center">Estadísticas</h2>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 border shadow-sm">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-900 dark:text-white">{t.stats.title}</h2>
 
       {/* Period Tabs */}
-      <div className="flex justify-around mb-6 border-b">
+      <div className="flex justify-around mb-6 border-b dark:border-gray-700">
         <button
           onClick={() => setSelectedPeriod("week")}
-          className={`pb-2 px-4 ${selectedPeriod === "week" ? "text-purple-600 border-b-2 border-purple-600 font-semibold" : "text-gray-500"}`}
+          className={`pb-2 px-4 ${selectedPeriod === "week" ? "text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 font-semibold" : "text-gray-500 dark:text-gray-400"}`}
         >
-          Semana
+          {t.stats.week}
         </button>
         <button
           onClick={() => setSelectedPeriod("month")}
-          className={`pb-2 px-4 ${selectedPeriod === "month" ? "text-purple-600 border-b-2 border-purple-600 font-semibold" : "text-gray-500"}`}
+          className={`pb-2 px-4 ${selectedPeriod === "month" ? "text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 font-semibold" : "text-gray-500 dark:text-gray-400"}`}
         >
-          Mes
+          {t.stats.month}
         </button>
         <button
           onClick={() => setSelectedPeriod("year")}
-          className={`pb-2 px-4 ${selectedPeriod === "year" ? "text-purple-600 border-b-2 border-purple-600 font-semibold" : "text-gray-500"}`}
+          className={`pb-2 px-4 ${selectedPeriod === "year" ? "text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 font-semibold" : "text-gray-500 dark:text-gray-400"}`}
         >
-          Año
+          {t.stats.year}
         </button>
         <button
           onClick={() => setSelectedPeriod("all")}
-          className={`pb-2 px-4 ${selectedPeriod === "all" ? "text-purple-600 border-b-2 border-purple-600 font-semibold" : "text-gray-500"}`}
+          className={`pb-2 px-4 ${selectedPeriod === "all" ? "text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 font-semibold" : "text-gray-500 dark:text-gray-400"}`}
         >
-          Total
+          {t.stats.all}
         </button>
       </div>
 
@@ -70,8 +74,8 @@ export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats 
           </div>
 
           {/* Bar Chart */}
-          <div className="bg-gray-50 rounded-xl p-4 mb-6">
-            <h3 className="text-center font-semibold mb-4">Actividades</h3>
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 mb-6">
+            <h3 className="text-center font-semibold mb-4 text-gray-900 dark:text-white">{t.stats.activities}</h3>
             <div className="flex items-end justify-around h-40 gap-1">
               {yearlyStats.map((stat, index) => {
                 const heightPercent = (stat.sessions / maxSessions) * 100;
@@ -79,11 +83,11 @@ export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats 
                   <div key={index} className="flex flex-col items-center gap-1 flex-1">
                     <div className="flex-1 w-full flex items-end">
                       <div
-                        className="w-full bg-purple-600 rounded-t transition-all duration-300 hover:bg-purple-700"
+                        className="w-full bg-purple-600 dark:bg-purple-500 rounded-t transition-all duration-300 hover:bg-purple-700 dark:hover:bg-purple-600"
                         style={{ height: `${heightPercent}%` }}
                       ></div>
                     </div>
-                    <span className="text-xs text-gray-600">{monthNames[index]}</span>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">{monthNames[index]}</span>
                   </div>
                 );
               })}
@@ -92,22 +96,22 @@ export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats 
 
           {/* Year Summary */}
           <div className="grid gap-4">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">Minutos Activos</span>
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.stats.activeMinutes}</span>
               <div className="text-right">
-                <p className="text-2xl font-bold">{Math.floor(yearlyStats.reduce((sum, s) => sum + s.totalTime, 0) / 60)}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.floor(yearlyStats.reduce((sum, s) => sum + s.totalTime, 0) / 60)}</p>
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">Distancia</span>
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.session.distance}</span>
               <div className="text-right">
-                <p className="text-2xl font-bold">{(yearlyStats.reduce((sum, s) => sum + s.totalDistance, 0) / 1000).toFixed(2)} km</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{(yearlyStats.reduce((sum, s) => sum + s.totalDistance, 0) / 1000).toFixed(2)} km</p>
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">Calorías</span>
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.session.calories}</span>
               <div className="text-right">
-                <p className="text-2xl font-bold">{yearlyStats.reduce((sum, s) => sum + s.totalCalories, 0).toLocaleString()} kcal</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{yearlyStats.reduce((sum, s) => sum + s.totalCalories, 0).toLocaleString()} kcal</p>
               </div>
             </div>
           </div>
@@ -116,27 +120,27 @@ export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats 
 
       {selectedPeriod === "week" && (
         <div className="grid gap-4">
-          <div className="text-center p-4 bg-purple-50 rounded-xl">
-            <p className="text-sm text-purple-600 mb-2">Esta Semana</p>
-            <p className="text-4xl font-black text-purple-700">{weeklyStats.sessions}</p>
-            <p className="text-sm text-gray-600">Sesiones</p>
+          <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-xl">
+            <p className="text-sm text-purple-600 dark:text-purple-400 mb-2">{t.stats.thisWeek}</p>
+            <p className="text-4xl font-black text-purple-700 dark:text-purple-300">{weeklyStats.sessions}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t.stats.sessions}</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-600 mb-1">Distancia</p>
-              <p className="text-xl font-bold">{(weeklyStats.totalDistance / 1000).toFixed(2)} km</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">{t.session.distance}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{(weeklyStats.totalDistance / 1000).toFixed(2)} km</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-600 mb-1">Tiempo</p>
-              <p className="text-xl font-bold">{Math.floor(weeklyStats.totalTime / 60)} min</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">{t.history.time}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{Math.floor(weeklyStats.totalTime / 60)} min</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-600 mb-1">Calorías</p>
-              <p className="text-xl font-bold">{weeklyStats.totalCalories}</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">{t.session.calories}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{weeklyStats.totalCalories}</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-600 mb-1">Ritmo Promedio</p>
-              <p className="text-xl font-bold">{weeklyStats.avgPace}</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">{t.stats.avgPace}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{weeklyStats.avgPace}</p>
             </div>
           </div>
         </div>
@@ -144,26 +148,26 @@ export default function StatisticsView({ yearlyStats, weeklyStats, allTimeStats 
 
       {selectedPeriod === "all" && (
         <div className="grid gap-4">
-          <div className="text-center p-4 bg-purple-50 rounded-xl">
-            <p className="text-sm text-purple-600 mb-2">Total de Carreras</p>
-            <p className="text-4xl font-black text-purple-700">{allTimeStats.sessions}</p>
+          <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-xl">
+            <p className="text-sm text-purple-600 dark:text-purple-400 mb-2">{t.stats.totalRuns}</p>
+            <p className="text-4xl font-black text-purple-700 dark:text-purple-300">{allTimeStats.sessions}</p>
           </div>
           <div className="grid gap-3">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">🏃 Distancia Total</span>
-              <p className="text-xl font-bold">{(allTimeStats.totalDistance / 1000).toFixed(2)} km</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.stats.totalDistance}</span>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{(allTimeStats.totalDistance / 1000).toFixed(2)} km</p>
             </div>
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">⏱️ Tiempo Total</span>
-              <p className="text-xl font-bold">{Math.floor(allTimeStats.totalTime / 60)} min</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.stats.totalTime}</span>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{Math.floor(allTimeStats.totalTime / 60)} min</p>
             </div>
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">🔥 Calorías Total</span>
-              <p className="text-xl font-bold">{allTimeStats.totalCalories.toLocaleString()} kcal</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.stats.totalCalories}</span>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{allTimeStats.totalCalories.toLocaleString()} kcal</p>
             </div>
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-              <span className="text-gray-600">👣 Pasos Total</span>
-              <p className="text-xl font-bold">{allTimeStats.totalSteps.toLocaleString()}</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <span className="text-gray-600 dark:text-gray-400">{t.stats.totalSteps}</span>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{allTimeStats.totalSteps.toLocaleString()}</p>
             </div>
           </div>
         </div>

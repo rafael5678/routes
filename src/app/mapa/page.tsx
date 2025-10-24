@@ -151,38 +151,40 @@ export default function MapaPage() {
   };
 
   return (
-    <div className="min-h-svh w-full flex items-center justify-center bg-linear-to-br from-orange-200 via-orange-300 to-orange-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen w-full bg-linear-to-br from-orange-200 via-orange-300 to-orange-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300 pb-20">
       {/* Background decorative circles */}
-      <div className="absolute top-10 left-10 w-32 h-32 bg-orange-100 dark:bg-gray-700 rounded-full opacity-60 animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-24 h-24 bg-yellow-200 dark:bg-gray-600 rounded-full opacity-40 animate-bounce"></div>
-      <div className="absolute top-1/3 right-10 w-16 h-16 bg-orange-100 dark:bg-gray-700 rounded-full opacity-50"></div>
+      <div className="fixed top-10 left-10 w-32 h-32 bg-orange-100 dark:bg-gray-700 rounded-full opacity-60 animate-pulse pointer-events-none"></div>
+      <div className="fixed bottom-20 right-20 w-24 h-24 bg-yellow-200 dark:bg-gray-600 rounded-full opacity-40 animate-bounce pointer-events-none"></div>
+      <div className="fixed top-1/3 right-10 w-16 h-16 bg-orange-100 dark:bg-gray-700 rounded-full opacity-50 pointer-events-none"></div>
       
-      {/* Responsive container: mobile full width, desktop large */}
-      <div className="w-full max-w-[95vw] md:max-w-[90vw] lg:max-w-7xl xl:max-w-[1400px] rounded-[28px] bg-white dark:bg-gray-800 shadow-2xl p-3 md:p-6 lg:p-8 grid gap-4 relative max-h-[90vh] overflow-y-auto transition-colors duration-300">
+      {/* Main container with proper spacing for fixed navigation */}
+      <div className="w-full max-w-[95vw] md:max-w-[90vw] lg:max-w-7xl xl:max-w-[1400px] mx-auto pt-4 md:pt-6 px-3 md:px-6 lg:px-8">
         {/* Header with theme toggle and language selector */}
-        <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700 gap-4 flex-wrap">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-              🏃‍♂️ {t.appTitle}
-            </h1>
-            {profile.name !== "Atleta" && (
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {t.greeting}, {profile.name}!
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <LanguageSelector />
-            <ThemeToggle />
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 mb-4 transition-colors duration-300">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                🏃‍♂️ {t.appTitle}
+              </h1>
+              {profile.name !== "Atleta" && (
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {t.greeting}, {profile.name}!
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <LanguageSelector />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
         {/* Content based on selected tab */}
-        <div className="min-h-[60vh]">
+        <div className="mb-4">
           {currentTab === "map" && (
-            <div className="grid lg:grid-cols-[1fr_400px] gap-4">
+            <div className="grid lg:grid-cols-[1fr_380px] gap-4">
               {/* Map Container - Takes more space on desktop */}
-              <div className="rounded-2xl overflow-hidden border h-[500px] lg:h-[700px]">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 h-[400px] md:h-[500px] lg:h-[600px] transition-colors duration-300">
                 <MapView 
                   onRouteComplete={handleRouteComplete}
                   onNavigationUpdate={setNavigationMessage}
@@ -193,7 +195,7 @@ export default function MapaPage() {
               </div>
               
               {/* Right sidebar on desktop, stacked on mobile */}
-              <div className="grid gap-4">
+              <div className="grid gap-4 content-start">
                 {/* Running Session Control */}
                 <RunningSessionControl
                   isActive={session.isActive}
@@ -220,114 +222,144 @@ export default function MapaPage() {
           )}
 
           {currentTab === "history" && (
-            <SessionHistory sessions={sessions} />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <SessionHistory sessions={sessions} />
+            </div>
           )}
 
           {currentTab === "stats" && (
-            <StatisticsView 
-              yearlyStats={yearlyStats}
-              weeklyStats={weeklyStats}
-              allTimeStats={allTimeStats}
-            />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <StatisticsView 
+                yearlyStats={yearlyStats}
+                weeklyStats={weeklyStats}
+                allTimeStats={allTimeStats}
+              />
+            </div>
           )}
 
           {currentTab === "goals" && (
-            <GoalsView 
-              dailyStats={todayStats}
-              yesterdaySteps={0}
-            />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <GoalsView 
+                dailyStats={todayStats}
+                yesterdaySteps={0}
+              />
+            </div>
           )}
 
           {currentTab === "profile" && (
-            <UserProfile />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <UserProfile />
+            </div>
           )}
 
           {currentTab === "achievements" && (
-            <AchievementsView />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <AchievementsView />
+            </div>
           )}
 
           {currentTab === "export" && (
-            <ExportData />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <ExportData />
+            </div>
           )}
 
           {currentTab === "settings" && (
-            <VoiceSettings />
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 transition-colors duration-300">
+              <VoiceSettings />
+            </div>
           )}
         </div>
 
-        {/* Bottom Navigation - Scrollable */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg transition-colors duration-300 overflow-x-auto">
-          <div className="flex gap-1 p-1 min-w-max">
+        {/* Bottom Navigation - Fixed with proper z-index */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-t dark:border-gray-700 shadow-2xl transition-colors duration-300 z-50">
+          <div className="flex justify-around gap-1 p-2 max-w-7xl mx-auto overflow-x-auto">
             <button
               onClick={() => setCurrentTab("map")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "map" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "map" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">🗺️</span>
+              <span className="text-xl">🗺️</span>
               <span className="text-[10px] font-semibold">{t.nav.map}</span>
             </button>
             <button
               onClick={() => setCurrentTab("history")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "history" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "history" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">📋</span>
+              <span className="text-xl">📋</span>
               <span className="text-[10px] font-semibold">{t.nav.history}</span>
             </button>
             <button
               onClick={() => setCurrentTab("stats")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "stats" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "stats" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">📊</span>
+              <span className="text-xl">📊</span>
               <span className="text-[10px] font-semibold">{t.nav.stats}</span>
             </button>
             <button
               onClick={() => setCurrentTab("goals")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "goals" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "goals" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">🎯</span>
+              <span className="text-xl">🎯</span>
               <span className="text-[10px] font-semibold">{t.nav.goals}</span>
             </button>
             <button
               onClick={() => setCurrentTab("profile")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "profile" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "profile" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">👤</span>
+              <span className="text-xl">👤</span>
               <span className="text-[10px] font-semibold">{t.nav.profile}</span>
             </button>
             <button
               onClick={() => setCurrentTab("achievements")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "achievements" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "achievements" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">🏆</span>
+              <span className="text-xl">🏆</span>
               <span className="text-[10px] font-semibold">{t.nav.achievements}</span>
             </button>
             <button
               onClick={() => setCurrentTab("export")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "export" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "export" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">📤</span>
+              <span className="text-xl">📤</span>
               <span className="text-[10px] font-semibold">{t.nav.export}</span>
             </button>
             <button
               onClick={() => setCurrentTab("settings")}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                currentTab === "settings" ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300" : "text-gray-500 dark:text-gray-400"
+              className={`flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all whitespace-nowrap min-w-[70px] ${
+                currentTab === "settings" 
+                  ? "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 shadow-md scale-105" 
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
-              <span className="text-lg">⚙️</span>
+              <span className="text-xl">⚙️</span>
               <span className="text-[10px] font-semibold">{t.nav.settings}</span>
             </button>
           </div>

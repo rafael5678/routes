@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/hooks/useLanguage";
+
 interface QuickDestination {
   name: string;
   coordinates: [number, number]; // [lat, lng]
@@ -64,6 +66,8 @@ const POPULAR_DESTINATIONS: QuickDestination[] = [
 ];
 
 export default function QuickDestinations({ onDestinationSelect, currentLocation }: QuickDestinationsProps) {
+  const { t } = useLanguage();
+  
   const handleDestinationClick = (destination: QuickDestination) => {
     onDestinationSelect(destination.coordinates[0], destination.coordinates[1], destination.name);
   };
@@ -71,14 +75,14 @@ export default function QuickDestinations({ onDestinationSelect, currentLocation
   if (!currentLocation) return null;
 
   return (
-    <section className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-200">
+    <section className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-2xl p-4 border border-blue-200 dark:border-blue-700">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
           <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4">
             <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
           </svg>
         </div>
-        <p className="font-semibold text-blue-800">Destinos desde la Universidad</p>
+        <p className="font-semibold text-blue-800 dark:text-blue-200">{t.map.destinationsFromUniversity}</p>
       </div>
       
       <div className="grid grid-cols-2 gap-2">
@@ -99,8 +103,8 @@ export default function QuickDestinations({ onDestinationSelect, currentLocation
         ))}
       </div>
       
-      <p className="text-xs text-blue-600 mt-2 text-center">
-        Toca un destino para calcular la ruta automáticamente
+      <p className="text-xs text-blue-600 dark:text-blue-300 mt-2 text-center">
+        {t.map.tapDestinationToCalculate}
       </p>
     </section>
   );

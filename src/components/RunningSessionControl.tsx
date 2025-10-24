@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/hooks/useLanguage";
+
 interface RunningSessionControlProps {
   isActive: boolean;
   isPaused: boolean;
@@ -31,6 +33,7 @@ export default function RunningSessionControl({
   onResume,
   onStop,
 }: RunningSessionControlProps) {
+  const { t } = useLanguage();
   
   const calculatePace = (distanceStr: string, timeStr: string) => {
     const dist = parseFloat(distanceStr);
@@ -70,15 +73,15 @@ export default function RunningSessionControl({
             <span className="text-2xl">🏃</span>
           </div>
           <div>
-            <p className="font-bold text-lg">Iniciar Entrenamiento</p>
-            <p className="text-sm text-white/80">Haz clic para comenzar a correr</p>
+            <p className="font-bold text-lg">{t.session.startTraining}</p>
+            <p className="text-sm text-white/80">{t.session.clickToStart}</p>
           </div>
         </div>
         <button
           onClick={onStart}
           className="w-full py-3 bg-white text-green-600 rounded-xl font-bold text-lg hover:bg-green-50 transition-colors shadow-lg"
         >
-          🚀 COMENZAR AHORA
+          {t.session.startNow}
         </button>
       </section>
     );
@@ -91,7 +94,7 @@ export default function RunningSessionControl({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-purple-600">Correr</span>
+          <span className="text-xl font-bold text-purple-600">{t.session.running}</span>
           <span className="text-gray-400">▼</span>
         </div>
         <div className="flex gap-2">
@@ -104,11 +107,11 @@ export default function RunningSessionControl({
       <div className="grid grid-cols-2 gap-4 mb-4">
         {/* Duration */}
         <div className="bg-gray-50 rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">Duración</p>
+          <p className="text-sm text-gray-600 mb-1">{t.session.duration}</p>
           <p className="text-3xl font-black text-gray-900">{elapsedTime}</p>
           {goalTime && (
             <>
-              <p className="text-sm text-orange-500 font-semibold mt-1">Meta: {goalTime}</p>
+              <p className="text-sm text-orange-500 font-semibold mt-1">{t.session.goal}: {goalTime}</p>
               <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-orange-500 rounded-full transition-all duration-500"
@@ -121,7 +124,7 @@ export default function RunningSessionControl({
 
         {/* Distance */}
         <div className="bg-gray-50 rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">Distancia</p>
+          <p className="text-sm text-gray-600 mb-1">{t.session.distance}</p>
           <p className="text-3xl font-black text-gray-900">{distance} km</p>
         </div>
       </div>
@@ -129,12 +132,12 @@ export default function RunningSessionControl({
       {/* Secondary Stats */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
-          <p className="text-sm text-gray-600 mb-1">Calorías</p>
+          <p className="text-sm text-gray-600 mb-1">{t.session.calories}</p>
           <p className="text-2xl font-bold text-gray-900">{calories} kcal</p>
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Ritmo</p>
+            <p className="text-sm text-gray-600 mb-1">{t.session.pace}</p>
             <p className="text-2xl font-bold text-gray-900">{pace}</p>
           </div>
           <span className="text-gray-400">→</span>
@@ -146,7 +149,7 @@ export default function RunningSessionControl({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span>👣</span>
-            <span className="font-semibold">Pasos hoy</span>
+            <span className="font-semibold">{t.session.stepsToday}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold text-purple-600">{steps.toLocaleString()}</span>
@@ -162,21 +165,21 @@ export default function RunningSessionControl({
             onClick={onResume}
             className="flex-1 py-4 bg-purple-600 hover:bg-purple-700 rounded-2xl font-bold text-white transition-colors shadow-lg text-lg"
           >
-            Reanudar
+            {t.session.resume}
           </button>
         ) : (
           <button
             onClick={onPause}
             className="flex-1 py-4 bg-purple-600 hover:bg-purple-700 rounded-2xl font-bold text-white transition-colors shadow-lg text-lg"
           >
-            Pausa
+            {t.session.pause}
           </button>
         )}
         <button
           onClick={onStop}
           className="flex-1 py-4 bg-red-500 hover:bg-red-600 rounded-2xl font-bold text-white transition-colors shadow-lg text-lg"
         >
-          Parar
+          {t.session.stop}
         </button>
       </div>
     </section>

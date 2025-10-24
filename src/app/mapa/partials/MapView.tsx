@@ -5,6 +5,7 @@ import { MapContainer, Marker, Polyline, TileLayer, useMapEvents, useMap } from 
 import L, { LatLngExpression } from "leaflet";
 import { RouteData, MapState } from "@/types";
 import { useLocation } from "@/hooks/useLocation";
+import { useLanguage } from "@/hooks/useLanguage";
 
 // Default center - will be updated with user's real location
 const defaultCenter: LatLngExpression = [4.7110, -74.0721]; // Bogotá, Colombia (default)
@@ -56,6 +57,7 @@ interface MapViewProps {
 }
 
 export default function MapView({ onRouteComplete, onNavigationUpdate, onDestinationSelect, livePositions, followUser }: MapViewProps) {
+  const { t, language } = useLanguage();
   const [mapState, setMapState] = useState<MapState>({
     start: null,
     end: null,
@@ -283,16 +285,16 @@ export default function MapView({ onRouteComplete, onNavigationUpdate, onDestina
       <div className="absolute left-3 right-3 bottom-3 flex items-center gap-3 translate-y-16 md:translate-y-0">
         <div className="rounded-full bg-white/90 backdrop-blur px-4 py-2 shadow border flex-1 flex items-center justify-between">
           <span className="text-sm">
-            {mapState.start ? (mapState.end ? "Ruta lista" : "Selecciona destino") : "Selecciona origen"}
+            {mapState.start ? (mapState.end ? t.map.routeReady : t.map.selectDestination) : t.map.selectOrigin}
           </span>
           <button 
             onClick={() => { 
               setMapState({ start: null, end: null, route: null, locating: false });
-              onNavigationUpdate("Toca el mapa para seleccionar origen y destino");
+              onNavigationUpdate(t.map.selectDestination);
             }} 
             className="text-sm px-3 py-1 rounded-full border hover:bg-gray-50 transition-colors"
           >
-            Limpiar
+            {t.map.clear}
           </button>
         </div>
         <div className="flex gap-2">
@@ -300,13 +302,13 @@ export default function MapView({ onRouteComplete, onNavigationUpdate, onDestina
             onClick={locate} 
             className="rounded-full bg-white shadow border px-3 py-2 text-sm min-w-24 hover:bg-gray-50 transition-colors"
           >
-            {isLocating ? "Ubicando..." : "Mi ubicación"}
+            {isLocating ? t.map.locating : t.map.myLocation}
           </button>
           <button 
             onClick={setUniversityAsStart} 
             className="rounded-full bg-blue-500 text-white shadow border px-3 py-2 text-sm min-w-24 hover:bg-blue-600 transition-colors"
           >
-            Universidad
+            {language === 'es' ? 'Universidad' : 'University'}
           </button>
         </div>
       </div>

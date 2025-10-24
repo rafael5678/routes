@@ -24,6 +24,12 @@ export interface Translations {
     calculating: string;
     distance: string;
     duration: string;
+    selectOrigin: string;
+    routeReady: string;
+    clear: string;
+    locating: string;
+    destinationsFromUniversity: string;
+    tapDestinationToCalculate: string;
   };
 
   // Running Session
@@ -39,6 +45,12 @@ export interface Translations {
     calories: string;
     steps: string;
     pace: string;
+    startTraining: string;
+    clickToStart: string;
+    startNow: string;
+    running: string;
+    goal: string;
+    stepsToday: string;
   };
 
   // Profile
@@ -83,6 +95,11 @@ export interface Translations {
     speed: string;
     consistency: string;
     special: string;
+    of: string;
+    unlockedCount: string;
+    completedPercent: string;
+    noAchievements: string;
+    unlockedOn: string;
   };
 
   // Export
@@ -105,6 +122,72 @@ export interface Translations {
     timeInterval: string;
     distanceInterval: string;
     test: string;
+  };
+
+  // History
+  history: {
+    title: string;
+    noSessions: string;
+    startFirst: string;
+    backToHistory: string;
+    time: string;
+  };
+
+  // Routes
+  routes: {
+    title: string;
+    selectRoute: string;
+    easy: string;
+    moderate: string;
+    difficult: string;
+    route1Name: string;
+    route1Desc: string;
+    route2Name: string;
+    route2Desc: string;
+    route3Name: string;
+    route3Desc: string;
+    route4Name: string;
+    route4Desc: string;
+  };
+
+  // Statistics
+  stats: {
+    title: string;
+    week: string;
+    month: string;
+    year: string;
+    all: string;
+    activities: string;
+    activeMinutes: string;
+    totalRuns: string;
+    totalDistance: string;
+    totalTime: string;
+    totalCalories: string;
+    totalSteps: string;
+    thisWeek: string;
+    sessions: string;
+    avgPace: string;
+  };
+
+  // Goals
+  goals: {
+    title: string;
+    stepsToday: string;
+    currentGoal: string;
+    stepsPerDay: string;
+    statistics: string;
+    trend: string;
+    yesterday: string;
+    otherGoals: string;
+    edit: string;
+    viewHistory: string;
+    dailySteps: string;
+    dailyDistance: string;
+    dailyCalories: string;
+    steps: string;
+    meters: string;
+    completed: string;
+    newGoalPrompt: string;
   };
 
   // Common
@@ -141,6 +224,12 @@ export const translations: Record<Language, Translations> = {
       calculating: "Calculando ruta...",
       distance: "Distancia",
       duration: "Duración",
+      selectOrigin: "Selecciona origen",
+      routeReady: "Ruta lista",
+      clear: "Limpiar",
+      locating: "Ubicando...",
+      destinationsFromUniversity: "Destinos desde la Universidad",
+      tapDestinationToCalculate: "Toca un destino para calcular la ruta automáticamente",
     },
     session: {
       start: "Iniciar",
@@ -154,6 +243,12 @@ export const translations: Record<Language, Translations> = {
       calories: "Calorías",
       steps: "Pasos",
       pace: "Ritmo",
+      startTraining: "Iniciar Entrenamiento",
+      clickToStart: "Haz clic para comenzar a correr",
+      startNow: "🚀 COMENZAR AHORA",
+      running: "Correr",
+      goal: "Meta",
+      stepsToday: "Pasos hoy",
     },
     profile: {
       title: "Mi Perfil",
@@ -194,6 +289,11 @@ export const translations: Record<Language, Translations> = {
       speed: "Velocidad",
       consistency: "Constancia",
       special: "Especiales",
+      of: "de",
+      unlockedCount: "desbloqueados",
+      completedPercent: "Completado",
+      noAchievements: "No hay logros en esta categoría",
+      unlockedOn: "Desbloqueado",
     },
     export: {
       title: "Exportar e Importar Datos",
@@ -212,6 +312,64 @@ export const translations: Record<Language, Translations> = {
       timeInterval: "Intervalo de tiempo",
       distanceInterval: "Intervalo de distancia",
       test: "Probar",
+    },
+    history: {
+      title: "📋 Historial de Carreras",
+      noSessions: "No hay carreras registradas",
+      startFirst: "¡Comienza tu primera sesión!",
+      backToHistory: "← Volver al historial",
+      time: "Tiempo",
+    },
+    routes: {
+      title: "Rutas para Correr",
+      selectRoute: "Selecciona una ruta y comienza tu entrenamiento",
+      easy: "Fácil",
+      moderate: "Moderado",
+      difficult: "Difícil",
+      route1Name: "Circuito Universidad - Pandiaco",
+      route1Desc: "Circuito corto alrededor de las universidades",
+      route2Name: "Ruta al Centro Histórico",
+      route2Desc: "Ruta hasta el centro con paisaje urbano",
+      route3Name: "Circuito Parque de la Salud",
+      route3Desc: "Ruta tranquila hacia zona verde",
+      route4Name: "Ruta Larga - Terminal",
+      route4Desc: "Ruta completa para entrenamiento intenso",
+    },
+    stats: {
+      title: "Estadísticas",
+      week: "Semana",
+      month: "Mes",
+      year: "Año",
+      all: "Total",
+      activities: "Actividades",
+      activeMinutes: "Minutos Activos",
+      totalRuns: "Total de Carreras",
+      totalDistance: "🏃 Distancia Total",
+      totalTime: "⏱️ Tiempo Total",
+      totalCalories: "🔥 Calorías Total",
+      totalSteps: "👣 Pasos Total",
+      thisWeek: "Esta Semana",
+      sessions: "Sesiones",
+      avgPace: "Ritmo Promedio",
+    },
+    goals: {
+      title: "Objetivos",
+      stepsToday: "Pasos hoy",
+      currentGoal: "Objetivo actual",
+      stepsPerDay: "Pasos / día",
+      statistics: "Estadísticas",
+      trend: "Tendencia",
+      yesterday: "Ayer",
+      otherGoals: "Otros Objetivos",
+      edit: "Editar",
+      viewHistory: "📊 Ver Historial Completo",
+      dailySteps: "Pasos diarios",
+      dailyDistance: "Distancia diaria",
+      dailyCalories: "Calorías diarias",
+      steps: "pasos",
+      meters: "metros",
+      completed: "Completado",
+      newGoalPrompt: "Nuevo objetivo para",
     },
     common: {
       back: "Volver",
@@ -244,6 +402,12 @@ export const translations: Record<Language, Translations> = {
       calculating: "Calculating route...",
       distance: "Distance",
       duration: "Duration",
+      selectOrigin: "Select origin",
+      routeReady: "Route ready",
+      clear: "Clear",
+      locating: "Locating...",
+      destinationsFromUniversity: "Destinations from University",
+      tapDestinationToCalculate: "Tap a destination to automatically calculate route",
     },
     session: {
       start: "Start",
@@ -257,6 +421,12 @@ export const translations: Record<Language, Translations> = {
       calories: "Calories",
       steps: "Steps",
       pace: "Pace",
+      startTraining: "Start Training",
+      clickToStart: "Click to start running",
+      startNow: "🚀 START NOW",
+      running: "Running",
+      goal: "Goal",
+      stepsToday: "Steps today",
     },
     profile: {
       title: "My Profile",
@@ -297,6 +467,11 @@ export const translations: Record<Language, Translations> = {
       speed: "Speed",
       consistency: "Consistency",
       special: "Special",
+      of: "of",
+      unlockedCount: "unlocked",
+      completedPercent: "Completed",
+      noAchievements: "No achievements in this category",
+      unlockedOn: "Unlocked",
     },
     export: {
       title: "Export and Import Data",
@@ -315,6 +490,64 @@ export const translations: Record<Language, Translations> = {
       timeInterval: "Time interval",
       distanceInterval: "Distance interval",
       test: "Test",
+    },
+    history: {
+      title: "📋 Run History",
+      noSessions: "No runs recorded",
+      startFirst: "Start your first session!",
+      backToHistory: "← Back to history",
+      time: "Time",
+    },
+    routes: {
+      title: "Running Routes",
+      selectRoute: "Select a route and start your training",
+      easy: "Easy",
+      moderate: "Moderate",
+      difficult: "Difficult",
+      route1Name: "University Circuit - Pandiaco",
+      route1Desc: "Short circuit around universities",
+      route2Name: "Historic Center Route",
+      route2Desc: "Route to downtown with urban landscape",
+      route3Name: "Health Park Circuit",
+      route3Desc: "Quiet route towards green area",
+      route4Name: "Long Route - Terminal",
+      route4Desc: "Complete route for intense training",
+    },
+    stats: {
+      title: "Statistics",
+      week: "Week",
+      month: "Month",
+      year: "Year",
+      all: "All Time",
+      activities: "Activities",
+      activeMinutes: "Active Minutes",
+      totalRuns: "Total Runs",
+      totalDistance: "🏃 Total Distance",
+      totalTime: "⏱️ Total Time",
+      totalCalories: "🔥 Total Calories",
+      totalSteps: "👣 Total Steps",
+      thisWeek: "This Week",
+      sessions: "Sessions",
+      avgPace: "Average Pace",
+    },
+    goals: {
+      title: "Goals",
+      stepsToday: "Steps today",
+      currentGoal: "Current goal",
+      stepsPerDay: "Steps / day",
+      statistics: "Statistics",
+      trend: "Trend",
+      yesterday: "Yesterday",
+      otherGoals: "Other Goals",
+      edit: "Edit",
+      viewHistory: "📊 View Full History",
+      dailySteps: "Daily steps",
+      dailyDistance: "Daily distance",
+      dailyCalories: "Daily calories",
+      steps: "steps",
+      meters: "meters",
+      completed: "Completed",
+      newGoalPrompt: "New goal for",
     },
     common: {
       back: "Back",
